@@ -48,4 +48,11 @@ public class UserController {
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
+
+    @Transactional
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> delete(@PathVariable String id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
