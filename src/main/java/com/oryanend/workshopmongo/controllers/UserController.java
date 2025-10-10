@@ -1,7 +1,7 @@
 package com.oryanend.workshopmongo.controllers;
 
+import com.oryanend.workshopmongo.models.dto.PostDTO;
 import com.oryanend.workshopmongo.models.dto.UserDTO;
-import com.oryanend.workshopmongo.models.entities.User;
 import com.oryanend.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -54,5 +53,12 @@ public class UserController {
     public ResponseEntity<UserDTO> delete(@PathVariable String id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String id){
+        List<PostDTO> list = service.getUserPosts(id);
+        return ResponseEntity.ok().body(list);
     }
 }

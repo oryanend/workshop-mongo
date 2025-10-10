@@ -1,6 +1,8 @@
 package com.oryanend.workshopmongo.services;
 
+import com.oryanend.workshopmongo.models.dto.PostDTO;
 import com.oryanend.workshopmongo.models.dto.UserDTO;
+import com.oryanend.workshopmongo.models.entities.Post;
 import com.oryanend.workshopmongo.models.entities.User;
 import com.oryanend.workshopmongo.repositories.UserRepository;
 import com.oryanend.workshopmongo.services.exceptions.ResourceNotFoundException;
@@ -48,6 +50,11 @@ public class UserService {
     public void delete(String id){
         getEntityById(id);
         repository.deleteById(id);
+    }
+
+    public List<PostDTO> getUserPosts(String id) {
+        User user = getEntityById(id);
+        return user.getPosts().stream().map(PostDTO::new).toList();
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {
